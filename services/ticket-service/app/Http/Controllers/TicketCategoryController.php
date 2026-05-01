@@ -31,4 +31,13 @@ class TicketCategoryController extends Controller
         $categories = TicketCategory::where('event_id', $eventId)->get();
         return response()->json(['data' => $categories]);
     }
+
+    public function show(string $id)
+    {
+    $category = TicketCategory::find($id);
+    if (!$category) {
+        return response()->json(['message' => 'Kategori tidak ditemukan'], 404);
+    }
+    return response()->json(['data' => $category]);
+    }
 }

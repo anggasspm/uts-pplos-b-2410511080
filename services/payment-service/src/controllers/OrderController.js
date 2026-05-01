@@ -12,12 +12,10 @@ async function createOrder(req, res) {
   try {
     // Ambil detail kategori tiket dari ticket-service (inter-service call)
     const categoryRes = await axios.get(
-      `${process.env.TICKET_SERVICE_URL}/api/events`,
-      { params: { per_page: 1 } } // dummy — idealnya endpoint GET /api/ticket-categories/:id
+  `${process.env.TICKET_SERVICE_URL}/api/categories/${ticket_category_id}`
     );
-
-    // Simulasi harga — pada implementasi nyata ambil dari ticket-service
-    const unitPrice = 150000;
+    const category = categoryRes.data.data;
+    const unitPrice = category.price;
     const total     = unitPrice * quantity;
 
     const order = await Order.create({
@@ -46,7 +44,7 @@ async function createOrder(req, res) {
   }
 }
 
-// POST /api/orders/:id/confirm-payment — konfirmasi bayar & generate tiket
+// POST /api/orders/:id/confirm-payment 
 async function confirmPayment(req, res) {
   const order = await Order.findById(req.params.id);
   if (!order) return res.status(404).json({ message: 'Order tidak ditemukan' });
@@ -94,7 +92,7 @@ async function getOrder(req, res) {
   return res.status(200).json({ data: order });
 }
 
-// GET /api/orders — list order milik user
+// GET /api/orders 
 async function listOrders(req, res) {
   const page    = Math.max(parseInt(req.query.page    || '1'),  1);
   const perPage = Math.min(parseInt(req.query.per_page || '10'), 100);
