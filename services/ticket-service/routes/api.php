@@ -12,6 +12,7 @@ Route::get('/health', fn() => response()->json(['service' => 'ticket-service', '
 Route::get('/events',      [EventController::class, 'index']);
 Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/{eventId}/categories', [TicketCategoryController::class, 'index']);
+Route::get('/categories/{id}', [TicketCategoryController::class, 'show']);
 
 // Protected routes
 Route::middleware('jwt')->group(function () {
