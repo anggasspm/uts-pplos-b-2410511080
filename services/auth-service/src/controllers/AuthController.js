@@ -1,6 +1,25 @@
 const bcrypt = require('bcryptjs');
 const { UserModel, TokenModel } = require('../models/AuthModel');
 const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../utils/jwtHelper');
+const { name, email, password, password_confirmation } = req.body;
+
+if (!name || !email || !password) {
+  return res.status(422).json({ message: 'name, email, dan password wajib diisi' });
+}
+
+// validasi format email
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+if (!emailRegex.test(email)) {
+  return res.status(422).json({ message: 'Format email tidak valid' });
+}
+
+if (password.length < 8) {
+  return res.status(422).json({ message: 'Password minimal 8 karakter' });
+}
+
+if (password_confirmation && password !== password_confirmation) {
+  return res.status(422).json({ message: 'Password dan konfirmasi password tidak cocok' });
+}
 
 function refreshExpiresAt() {
   const d = new Date();

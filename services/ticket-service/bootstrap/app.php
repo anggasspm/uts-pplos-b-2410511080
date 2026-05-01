@@ -13,8 +13,20 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'jwt' => \App\Http\Middleware\JwtMiddleware::class]);
+            'jwt' => \App\Http\Middleware\JwtMiddleware::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        $exceptions->render(function (\Illuminate\Validation\ValidationException $e, $request) {
+            return response()->json([
+                'message' => 'Validasi gagal',
+                'errors'  => $e->errors(),
+            ], 422);
+        });
+
+        $exceptions->render(function (\Illuminate\Database\Eloquent\ModelNotFoundException $e, $request) {
+            return response()->json([
+                'message' => 'Data tidak ditemukan',
+            ], 404);
+        });
     })->create();

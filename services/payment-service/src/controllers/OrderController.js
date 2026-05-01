@@ -4,10 +4,18 @@ const Order  = require('../models/Order');
 // POST /api/orders — buat order baru (checkout)
 async function createOrder(req, res) {
   const { ticket_category_id, quantity, payment_method } = req.body;
-
-  if (!ticket_category_id || !quantity) {
-    return res.status(422).json({ message: 'ticket_category_id dan quantity wajib diisi' });
-  }
+    if (!ticket_category_id) {
+      return res.status(422).json({ message: 'ticket_category_id wajib diisi' });
+    }
+    if (!quantity || !Number.isInteger(Number(quantity)) || Number(quantity) < 1) {
+      return res.status(422).json({ message: 'quantity wajib diisi dan minimal 1' });
+    }
+    if (quantity > 10) {
+      return res.status(422).json({ message: 'quantity maksimal 10' });
+    }
+    if (payment_method && !['transfer', 'ewallet', 'qris'].includes(payment_method)) {
+      return res.status(422).json({ message: 'payment_method harus transfer, ewallet, atau qris' });
+    }
 
   try {
     // Ambil detail kategori tiket dari ticket-service (inter-service call)
