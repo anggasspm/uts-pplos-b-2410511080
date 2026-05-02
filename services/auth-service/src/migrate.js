@@ -18,6 +18,7 @@ async function migrate() {
       name        VARCHAR(100) NOT NULL,
       email       VARCHAR(150) NOT NULL UNIQUE,
       password    VARCHAR(255),
+      role        ENUM('user', 'organizer', 'admin') NOT NULL DEFAULT 'user'
       oauth_provider VARCHAR(50)  DEFAULT NULL,
       oauth_id    VARCHAR(255) DEFAULT NULL,
       avatar      TEXT         DEFAULT NULL,
