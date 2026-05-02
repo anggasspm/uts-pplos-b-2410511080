@@ -12,14 +12,14 @@ class UserModel {
     return rows[0] || null;
   }
 
-  static async create({ name, email, password = null, oauth_provider = null, oauth_id = null, avatar = null }) {
-    const id = uuidv4();
-    await db.query(
-      'INSERT INTO users (id, name, email, password, oauth_provider, oauth_id, avatar) VALUES (?, ?, ?, ?, ?, ?, ?)',
-      [id, name, email, password, oauth_provider, oauth_id, avatar]
-    );
-    return { id, name, email, oauth_provider, avatar };
-  }
+  static async create({ name, email, password = null, role = 'user', oauth_provider = null, oauth_id = null, avatar = null }) {
+  const id = uuidv4();
+  await db.query(
+    'INSERT INTO users (id, name, email, password, role, oauth_provider, oauth_id, avatar) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [id, name, email, password, role, oauth_provider, oauth_id, avatar]
+  );
+  return { id, name, email, role, oauth_provider, avatar };
+}
 
   static async upsertOAuth({ name, email, oauth_provider, oauth_id, avatar }) {
     let user = await this.findByEmail(email);
