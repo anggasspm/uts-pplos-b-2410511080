@@ -15,7 +15,7 @@
 
 ## Demo Video
 
-▶️ [Klik untuk menonton demo (YouTube Unlisted)](https://youtube.com/link-video-kamu)
+[demo (YouTube Unlisted)](https://youtu.be/-v57Ab4LCS4)
 
 ---
 
