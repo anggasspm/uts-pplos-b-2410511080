@@ -1,17 +1,11 @@
 {
   "info": {
-    "name": "UTS PPLOS B — NIM 80 — Tiket Event",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "_postman_id": "6f4b3a5c-c0b2-4683-afd2-14d130950620",
+    "name": "UTS PPLOS B — NIM 2410511080 — Sistem Tiket Event",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45042580",
+    "_collection_link": "https://go.postman.co/collection/45042580-6f4b3a5c-c0b2-4683-afd2-14d130950620?source=collection_link"
   },
-  "variable": [
-    { "key": "base_url",      "value": "http://localhost:8000" },
-    { "key": "access_token",  "value": "" },
-    { "key": "refresh_token", "value": "" },
-    { "key": "event_id",      "value": "" },
-    { "key": "category_id",   "value": "" },
-    { "key": "order_id",      "value": "" },
-    { "key": "qr_code",       "value": "" }
-  ],
   "item": [
     {
       "name": "Health Check",
@@ -20,33 +14,96 @@
           "name": "Gateway Health",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/health",
-            "header": [{ "key": "Accept", "value": "application/json" }]
-          }
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Auth Service Health",
           "request": {
             "method": "GET",
-            "url": "http://localhost:3001/health",
-            "header": [{ "key": "Accept", "value": "application/json" }]
-          }
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3001/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Ticket Service Health",
           "request": {
             "method": "GET",
-            "url": "http://localhost:3002/api/health",
-            "header": [{ "key": "Accept", "value": "application/json" }]
-          }
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3002/api/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3002",
+              "path": [
+                "api",
+                "health"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Payment Service Health",
           "request": {
             "method": "GET",
-            "url": "http://localhost:3003/health",
-            "header": [{ "key": "Accept", "value": "application/json" }]
-          }
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:3003/health",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3003",
+              "path": [
+                "health"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -54,19 +111,68 @@
       "name": "Auth",
       "item": [
         {
-          "name": "Register",
+          "name": "Register as Organizer",
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/auth/register",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Accept",       "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Budi Santoso\",\n  \"email\": \"budi@example.com\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"name\": \"I Gusti Bagus Anggas\",\n  \"email\": \"anggassspm@gmail.com\",\n  \"password\": \"Anggas@2024\",\n  \"password_confirmation\": \"Anggas@2024\",\n  \"role\": \"organizer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
             }
-          }
+          },
+          "response": []
+        },
+        {
+          "name": "Register as User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Budi Santoso\",\n  \"email\": \"budi@example.com\",\n  \"password\": \"Budi@2024\",\n  \"password_confirmation\": \"Budi@2024\",\n  \"role\": \"user\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Login",
@@ -81,33 +187,68 @@
                   "  pm.collectionVariables.set('refresh_token', res.refresh_token);",
                   "  console.log('Token saved');",
                   "}"
-                ]
+                ],
+                "type": "text/javascript"
               }
             }
           ],
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/auth/login",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Accept",       "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"budi@example.com\",\n  \"password\": \"password123\"\n}"
+              "raw": "{\n  \"email\": \"anggassspm@gmail.com\",\n  \"password\": \"Anggas@2024\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Me (Get Profile)",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/auth/me",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Accept",        "value": "application/json" }
-            ]
-          }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Refresh Token",
@@ -120,42 +261,95 @@
                   "if (res.access_token) {",
                   "  pm.collectionVariables.set('access_token', res.access_token);",
                   "  pm.collectionVariables.set('refresh_token', res.refresh_token);",
+                  "  console.log('Token refreshed');",
                   "}"
-                ]
+                ],
+                "type": "text/javascript"
               }
             }
           ],
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/auth/refresh",
             "header": [
-              { "key": "Content-Type", "value": "application/json" },
-              { "key": "Accept",       "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"refresh_token\": \"{{refresh_token}}\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/refresh",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Logout",
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/auth/logout",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Accept",        "value": "application/json" }
-            ]
-          }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/logout",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Google OAuth — Redirect",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/auth/oauth/google",
-            "header": [{ "key": "Accept", "value": "application/json" }]
-          }
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/auth/oauth/google",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "oauth",
+                "google"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -166,24 +360,62 @@
           "name": "List Events",
           "request": {
             "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{base_url}}/api/events?page=1&per_page=10&status=active",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events"
+              ],
               "query": [
-                { "key": "page",      "value": "1" },
-                { "key": "per_page",  "value": "10" },
-                { "key": "status",    "value": "active" }
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "10"
+                },
+                {
+                  "key": "status",
+                  "value": "active"
+                }
               ]
-            },
-            "header": [{ "key": "Accept", "value": "application/json" }]
-          }
+            }
+          },
+          "response": []
         },
         {
           "name": "Get Event by ID",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/events/{{event_id}}",
-            "header": [{ "key": "Accept", "value": "application/json" }]
-          }
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/events/{{event_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events",
+                "{{event_id}}"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Create Event",
@@ -197,50 +429,107 @@
                   "  pm.collectionVariables.set('event_id', res.data.id);",
                   "  console.log('Event ID saved:', res.data.id);",
                   "}"
-                ]
+                ],
+                "type": "text/javascript"
               }
             }
           ],
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/events",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Content-Type",  "value": "application/json" },
-              { "key": "Accept",        "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Konser Ariana Grande\",\n  \"description\": \"Konser spesial Ariana Grande\",\n  \"location\": \"Gelora Bung Karno, Jakarta\",\n  \"event_date\": \"2026-08-17T19:00:00\"\n}"
+              "raw": "{\n  \"name\": \"Konser Dewa 19 — Reunion Tour\",\n  \"description\": \"Konser reuni legendaris Dewa 19 setelah 10 tahun\",\n  \"location\": \"Gelora Bung Karno, Jakarta\",\n  \"event_date\": \"2026-08-17T19:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/events",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update Event",
           "request": {
             "method": "PUT",
-            "url": "{{base_url}}/api/events/{{event_id}}",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Content-Type",  "value": "application/json" },
-              { "key": "Accept",        "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Konser Ariana Grande — Special Edition\",\n  \"status\": \"active\"\n}"
+              "raw": "{\n  \"name\": \"Konser Dewa 19 — Reunion Tour Special Edition\",\n  \"status\": \"active\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/events/{{event_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events",
+                "{{event_id}}"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Delete Event",
           "request": {
             "method": "DELETE",
-            "url": "{{base_url}}/api/events/{{event_id}}",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Accept",        "value": "application/json" }
-            ]
-          }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/events/{{event_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events",
+                "{{event_id}}"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -251,12 +540,59 @@
           "name": "List Categories by Event",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/events/{{event_id}}/categories",
-            "header": [{ "key": "Accept", "value": "application/json" }]
-          }
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/events/{{event_id}}/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events",
+                "{{event_id}}",
+                "categories"
+              ]
+            }
+          },
+          "response": []
         },
         {
-          "name": "Create Category",
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/categories/{{category_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "categories",
+                "{{category_id}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category — VIP",
           "event": [
             {
               "listen": "test",
@@ -267,23 +603,119 @@
                   "  pm.collectionVariables.set('category_id', res.data.id);",
                   "  console.log('Category ID saved:', res.data.id);",
                   "}"
-                ]
+                ],
+                "type": "text/javascript"
               }
             }
           ],
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/events/{{event_id}}/categories",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Content-Type",  "value": "application/json" },
-              { "key": "Accept",        "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"VIP\",\n  \"description\": \"Kursi VIP paling depan\",\n  \"price\": 500000,\n  \"quota\": 100\n}"
+              "raw": "{\n  \"name\": \"VIP\",\n  \"description\": \"Kursi VIP paling depan dengan akses backstage\",\n  \"price\": 750000,\n  \"quota\": 50\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/events/{{event_id}}/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events",
+                "{{event_id}}",
+                "categories"
+              ]
             }
-          }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category — Regular",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Regular\",\n  \"description\": \"Tiket reguler tribune\",\n  \"price\": 350000,\n  \"quota\": 200\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/events/{{event_id}}/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events",
+                "{{event_id}}",
+                "categories"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category — Student",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Student\",\n  \"description\": \"Tiket khusus pelajar dan mahasiswa\",\n  \"price\": 150000,\n  \"quota\": 100\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/events/{{event_id}}/categories",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events",
+                "{{event_id}}",
+                "categories"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -294,21 +726,41 @@
           "name": "List Orders",
           "request": {
             "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{base_url}}/api/orders?page=1&per_page=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ],
               "query": [
-                { "key": "page",     "value": "1" },
-                { "key": "per_page", "value": "10" }
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "10"
+                }
               ]
-            },
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Accept",        "value": "application/json" }
-            ]
-          }
+            }
+          },
+          "response": []
         },
         {
-          "name": "Create Order (Checkout)",
+          "name": "Create Order — Checkout",
           "event": [
             {
               "listen": "test",
@@ -319,34 +771,71 @@
                   "  pm.collectionVariables.set('order_id', res.data._id);",
                   "  console.log('Order ID saved:', res.data._id);",
                   "}"
-                ]
+                ],
+                "type": "text/javascript"
               }
             }
           ],
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/orders",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Content-Type",  "value": "application/json" },
-              { "key": "Accept",        "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"ticket_category_id\": \"{{category_id}}\",\n  \"quantity\": 2,\n  \"payment_method\": \"transfer\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/orders",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders"
+              ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get Order by ID",
           "request": {
             "method": "GET",
-            "url": "{{base_url}}/api/orders/{{order_id}}",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Accept",        "value": "application/json" }
-            ]
-          }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/{{order_id}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{order_id}}"
+              ]
+            }
+          },
+          "response": []
         },
         {
           "name": "Confirm Payment",
@@ -360,18 +849,37 @@
                   "  pm.collectionVariables.set('qr_code', res.tickets[0].qr_code);",
                   "  console.log('QR Code saved:', res.tickets[0].qr_code);",
                   "}"
-                ]
+                ],
+                "type": "text/javascript"
               }
             }
           ],
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/orders/{{order_id}}/confirm-payment",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Accept",        "value": "application/json" }
-            ]
-          }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/orders/{{order_id}}/confirm-payment",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "orders",
+                "{{order_id}}",
+                "confirm-payment"
+              ]
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -382,36 +890,146 @@
           "name": "My Tickets",
           "request": {
             "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{base_url}}/api/tickets?page=1&per_page=10",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tickets"
+              ],
               "query": [
-                { "key": "page",     "value": "1" },
-                { "key": "per_page", "value": "10" }
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "10"
+                }
               ]
-            },
-            "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Accept",        "value": "application/json" }
-            ]
-          }
+            }
+          },
+          "response": []
         },
         {
           "name": "Validate QR",
           "request": {
             "method": "POST",
-            "url": "{{base_url}}/api/tickets/validate-qr",
             "header": [
-              { "key": "Authorization", "value": "Bearer {{access_token}}" },
-              { "key": "Content-Type",  "value": "application/json" },
-              { "key": "Accept",        "value": "application/json" }
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"qr_code\": \"{{qr_code}}\",\n  \"gate\": \"Gate A\",\n  \"validated_by\": \"Petugas 1\"\n}"
+              "raw": "{\n  \"qr_code\": \"{{qr_code}}\",\n  \"gate\": \"Gate A\",\n  \"validated_by\": \"I Gusti Bagus Anggas\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/tickets/validate-qr",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "tickets",
+                "validate-qr"
+              ]
             }
-          }
+          },
+          "response": []
         }
       ]
+    },
+    {
+      "name": "Role — Forbidden Test",
+      "item": [
+        {
+          "name": "Create Event as User (should 403)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{access_token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Test Event\",\n  \"description\": \"Ini harusnya ditolak jika login sebagai user biasa\",\n  \"location\": \"Jakarta\",\n  \"event_date\": \"2026-09-01T10:00:00\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/events",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "events"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "access_token",
+      "value": ""
+    },
+    {
+      "key": "refresh_token",
+      "value": ""
+    },
+    {
+      "key": "event_id",
+      "value": ""
+    },
+    {
+      "key": "category_id",
+      "value": ""
+    },
+    {
+      "key": "order_id",
+      "value": ""
+    },
+    {
+      "key": "qr_code",
+      "value": ""
     }
   ]
 }
