@@ -14,16 +14,18 @@ Route::get('/events/{id}', [EventController::class, 'show']);
 Route::get('/events/{eventId}/categories', [TicketCategoryController::class, 'index']);
 Route::get('/categories/{id}', [TicketCategoryController::class, 'show']);
 
-// Protected routes
-Route::middleware('jwt')->group(function () {
+Route::middleware(['jwt', 'role:organizer,admin'])->group(function () {
     Route::post('/events',        [EventController::class, 'store']);
     Route::put('/events/{id}',    [EventController::class, 'update']);
     Route::delete('/events/{id}', [EventController::class, 'destroy']);
-
-    Route::get('/tickets',        [TicketController::class, 'index']);
-
     Route::post('/events/{eventId}/categories', [TicketCategoryController::class, 'store']);
 });
+
+// Protected routes
+Route::middleware('jwt')->group(function () {
+    Route::get('/tickets', [TicketController::class, 'index']);
+});
+
 
 // Inter-service routes
 Route::post('/tickets',             [TicketController::class, 'store']);

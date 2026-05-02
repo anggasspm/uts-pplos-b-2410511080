@@ -10,7 +10,10 @@ function refreshExpiresAt() {
 
 // POST /api/auth/register
 async function register(req, res) {
-  const { name, email, password, password_confirmation } = req.body;
+  const { name, email, password, password_confirmation, role} = req.body;
+
+  const allowedRoles = ['user', 'organizer'];
+  const userRole = role && allowedRoles.includes(role) ? role : 'user';
 
   if (!name || !email || !password) {
     return res.status(422).json({ message: 'name, email, dan password wajib diisi' });
@@ -36,7 +39,7 @@ async function register(req, res) {
     }
 
     const hashed = await bcrypt.hash(password, 12);
-    const user = await UserModel.create({ name, email, password: hashed });
+    const user = await UserModel.create({ name, email, password: hashed, role: userRole});
 
     return res.status(201).json({ message: 'Registrasi berhasil', user });
   } catch (err) {

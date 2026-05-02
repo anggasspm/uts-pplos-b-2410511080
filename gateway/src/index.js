@@ -29,6 +29,7 @@ const PUBLIC_PATHS = [
   { method: 'GET',  path: '/api/auth/oauth/google' },
   { method: 'GET',  path: '/api/auth/oauth/google/callback' },
   { method: 'GET',  path: '/api/events' },   
+  { method: 'GET',  path: '/api/categories'}
 ];
  
 function isPublic(method, path) {
@@ -78,7 +79,10 @@ app.use('/api/events', proxy(process.env.TICKET_SERVICE_URL, {
 app.use('/api/tickets', proxy(process.env.TICKET_SERVICE_URL, {
   proxyReqPathResolver: req => '/api/tickets' + req.url,
 }));
- 
+app.use('/api/categories', proxy(process.env.TICKET_SERVICE_URL, {
+  proxyReqPathResolver: req => '/api/categories' + req.url,
+}));
+
 // /api/orders/
 app.use('/api/orders', proxy(process.env.PAYMENT_SERVICE_URL, {
   proxyReqPathResolver: req => '/api/orders' + req.url,

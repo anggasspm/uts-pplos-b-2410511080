@@ -13,9 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'jwt' => \App\Http\Middleware\JwtMiddleware::class,
-        ]);
-    })
+        'jwt'  => \App\Http\Middleware\JwtMiddleware::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
+            ]);
+        })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (\Illuminate\Validation\ValidationException $e, $request) {
             return response()->json([
@@ -29,4 +30,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 'message' => 'Data tidak ditemukan',
             ], 404);
         });
+
+ 
     })->create();
