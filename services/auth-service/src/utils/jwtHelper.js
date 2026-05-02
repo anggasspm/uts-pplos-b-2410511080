@@ -3,7 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 
 function generateAccessToken(user) {
   return jwt.sign(
-    { sub: user.id, email: user.email, jti: uuidv4() },
+    { sub: user.id, email: user.email, role: user.role, jti: uuidv4() },
     process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN || '15m' }
   );
